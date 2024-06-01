@@ -18,70 +18,58 @@ public class Tower : MonoBehaviour
 
     void Update()
     {
-        SelectTarget();
+        countdownToFire += Time.deltaTime;
+
+        if (currentTarget != null && !IsTargetInRange())
+        {
+            currentTarget = null;
+        }
+        if (currentTarget == null)
+        {
+            SelectTarget();
+        }
+        if (currentTarget == null)
+        {
+            return;
+        }
         AimTarget();
         
         Shoot();
-
-        countdownToFire += Time.deltaTime;
     }
 
     private void SelectTarget()
     {
-        if (currentTarget == null)
+        Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, detectionRadius, enemyLayerMask);
+        
+        if (targets.Length > 0)
         {
-            Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, detectionRadius, enemyLayerMask);
-            
-            if (targets.Length > 0)
-            {
-                currentTarget = targets[0].transform;
-    
-                if(IsTargetInRange())
-                {
-                    return;
-                }
-            }
-            
+            currentTarget = targets[0].transform;
         }
     }
 
     private bool IsTargetInRange()
     {
-        if (currentTarget != null)
-        {
-            float distanceToTarget = Vector2.Distance(transform.position, currentTarget.position);
-            
-            if (distanceToTarget > detectionRadius)
-            {
-                currentTarget = null;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        return false;
+        float distanceToTarget = Vector2.Distance(transform.position, currentTarget.position);
+        bool isTargetInRange = distanceToTarget < detectionRadius;
         
+        return isTargetInRange;
     }
 
     private void AimTarget()
     {
-        if (IsTargetInRange())
-        {
-            Vector2 direction = (Vector2)(currentTarget.position - transform.position);
+        Vector2 direction = (Vector2)(currentTarget.position - transform.position);
 
-            float angleOfAim = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion onTargetRotation = Quaternion.Euler(0, 0, angleOfAim -90);
-            
-            float rotationSpeed = 500f;
+        float angleOfAim = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion onTargetRotation = Quaternion.Euler(0, 0, angleOfAim -90);
+        
+        float rotationSpeed = 500f;
 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, onTargetRotation, rotationSpeed * Time.deltaTime);
-        }  
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, onTargetRotation, rotationSpeed * Time.deltaTime);
     }
 
     void Shoot()
     {
-        if (currentTarget != null && countdownToFire >= 1 / rateOfFire)
+        if (countdownToFire >= 1 / rateOfFire)
         {
             Rigidbody2D bullet = Instantiate(bulletPrefab, firePointEmitter.position, firePointEmitter.rotation);
             bullet.velocity = transform.up * bulletSpeed;

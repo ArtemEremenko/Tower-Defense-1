@@ -24,8 +24,6 @@ public class BulletBehavior : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision2D)
     {
-        // float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        // Quaternion hitRotation = Quaternion.Euler(0,0, angle);
         Instantiate (hitEffect, transform.position, transform.rotation);
 
         EnemyHealth enemy = collision2D.gameObject.GetComponent<EnemyHealth>();

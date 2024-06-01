@@ -732,7 +732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7237931083124014035, guid: af2ada9cf57864746a0fe1bf3ab7e23c, type: 3}
       propertyPath: detectionRadius
-      value: 12
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7237931083124014035, guid: af2ada9cf57864746a0fe1bf3ab7e23c, type: 3}
       propertyPath: hitBulletPrefab
