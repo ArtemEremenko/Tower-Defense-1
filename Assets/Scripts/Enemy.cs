@@ -6,10 +6,10 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    [SerializeField] private Transform[] targets;
     [SerializeField] private float speed = 5f;
+    private Transform[] waypoints;
     private int currentTargetIndex = 0;
     
     void Start()
@@ -19,9 +19,9 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        if (targets != null && targets.Length > 0)
+        if (waypoints != null && waypoints.Length > 0)
         {
-            Transform target = targets[currentTargetIndex];
+            Transform target = waypoints[currentTargetIndex];
             Vector2 direction = (target.position - transform.position).normalized;
             float distance = Vector2.Distance(transform.position, target.position);
 
@@ -32,8 +32,24 @@ public class EnemyMovement : MonoBehaviour
 
             if (distance <= 0.1f)
             {
-                currentTargetIndex = (currentTargetIndex + 1) % targets.Length;
+                currentTargetIndex = currentTargetIndex + 1;
+                
+                if (currentTargetIndex == waypoints.Length)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
+    }
+    public void Initialize(Transform waypointsParent)
+    {
+        waypoints = new Transform[waypointsParent.childCount];
+        
+        for (int i = 0; i < waypoints.Length; i++)
+        {
+            waypoints[i] = waypointsParent.GetChild(i);
+        }
+
+        transform.position = waypoints[0].position;
     }
 }

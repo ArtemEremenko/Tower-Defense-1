@@ -6,35 +6,30 @@ using UnityEngine;
 
 public class BulletBehavior : MonoBehaviour
 {
-    [SerializeField] private GameObject hitEffect;
-    
-    public Vector2 direction;
-    private float lifeTimer = 3;
+    [SerializeField] private GameObject hitEffectPrefab;
+    private int damage = 12;
+    private float bulletLifeTime = 3;
 
     void Update()
     {
-        lifeTimer -= Time.deltaTime;
+        bulletLifeTime -= Time.deltaTime;
 
-        if(lifeTimer <= 0)
+        if (bulletLifeTime <= 0)
         {
             Destroy(gameObject);
         }
-        
     }
 
     void OnCollisionEnter2D(Collision2D collision2D)
     {
-        Instantiate (hitEffect, transform.position, transform.rotation);
+        GameObject hitEffect = Instantiate (hitEffectPrefab, transform.position, transform.rotation);
+        Destroy(hitEffect, 0.1f);
 
-        EnemyHealth enemy = collision2D.gameObject.GetComponent<EnemyHealth>();
+        HealthSystem enemy = collision2D.gameObject.GetComponent<HealthSystem>();
         
-        if(enemy != null)
+        if (enemy != null)
         {
-            enemy.TakeDamage();
-        }
-        else
-        {
-            Debug.Log("no enemy found");
+            enemy.TakeDamage(damage);
         }
 
         Destroy(gameObject);

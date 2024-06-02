@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,6 +16,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private float detectionRadius = 8f;
     [SerializeField] private LayerMask enemyLayerMask; 
     Transform currentTarget = null;
+    //bool isAimed = true;
 
     void Update()
     {
@@ -33,8 +35,15 @@ public class Tower : MonoBehaviour
             return;
         }
         AimTarget();
+
+        // if (!isAimed)
+        // {
+        //     isAimed = true;
+        //     return;
+        // }
         
         Shoot();
+        //isAimed = false;
     }
 
     private void SelectTarget()
