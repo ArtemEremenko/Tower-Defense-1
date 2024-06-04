@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor;
+using System;
 
 public class Tower : MonoBehaviour
 {
@@ -16,7 +18,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private float detectionRadius = 8f;
     [SerializeField] private LayerMask enemyLayerMask; 
     Transform currentTarget = null;
-    //bool isAimed = true;
+    bool isAimed = false;
 
     void Update()
     {
@@ -36,14 +38,10 @@ public class Tower : MonoBehaviour
         }
         AimTarget();
 
-        // if (!isAimed)
-        // {
-        //     isAimed = true;
-        //     return;
-        // }
-        
-        Shoot();
-        //isAimed = false;
+        if (isAimed)
+        {
+            Shoot();
+        }
     }
 
     private void SelectTarget()
@@ -67,13 +65,14 @@ public class Tower : MonoBehaviour
     private void AimTarget()
     {
         Vector2 direction = (Vector2)(currentTarget.position - transform.position);
-
-        float angleOfAim = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion onTargetRotation = Quaternion.Euler(0, 0, angleOfAim -90);
+        
+        Quaternion onTargetRotation = Quaternion.LookRotation(Vector3.forward, direction);
         
         float rotationSpeed = 500f;
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, onTargetRotation, rotationSpeed * Time.deltaTime);
+        
+        isAimed = transform.rotation == onTargetRotation;
     }
 
     void Shoot()
@@ -91,4 +90,11 @@ public class Tower : MonoBehaviour
             countdownToFire = 0;
         }
     }
+    
+    private void OnDrawGizmosSelected ()
+    {
+        Handles.color = Color.cyan;
+        Handles.DrawWireDisc(transform.position, transform.forward, detectionRadius);
+    }
+
 }

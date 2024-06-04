@@ -17,8 +17,6 @@ public class EnemySpawner : MonoBehaviour
             SpawnEnemyUnit();
             spawnTimer = 0;
         }
-        // Spawn enemy from Start point
-        //  delete enemy in Finish point
     }
 
     private void SpawnEnemyUnit()

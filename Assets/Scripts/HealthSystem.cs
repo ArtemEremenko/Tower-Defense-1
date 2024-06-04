@@ -10,7 +10,6 @@ public class HealthSystem : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health = health - damage; 
-        Debug.Log(health);
         
         if (health <= 0)
         {
