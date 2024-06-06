@@ -31,7 +31,7 @@ public class BulletBehavior : MonoBehaviour
 
         GameObject hitEffect = Instantiate (hitEffectPrefab, transform.position, hitRotation);
         
-        Destroy(hitEffect, 1f);
+        Destroy(hitEffect, 0.2f);
 
         HealthSystem enemy = collision2D.gameObject.GetComponent<HealthSystem>();
         

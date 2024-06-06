@@ -14,6 +14,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private Rigidbody2D bulletPrefab;
     [SerializeField] private GameObject shootBulletPrefab;
     [SerializeField] private Transform firePointEmitter;
+    [SerializeField] public GameObject rangeCircle;
     [SerializeField] private float bulletSpeed = 5f;
     [SerializeField] private float detectionRadius = 8f;
     [SerializeField] private LayerMask enemyLayerMask; 
@@ -90,11 +91,14 @@ public class Tower : MonoBehaviour
             countdownToFire = 0;
         }
     }
-    
+
     private void OnDrawGizmosSelected ()
     {
         Handles.color = Color.cyan;
         Handles.DrawWireDisc(transform.position, transform.forward, detectionRadius);
     }
+
+
+    
 
 }
