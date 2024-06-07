@@ -98,6 +98,11 @@ public class Tower : MonoBehaviour
         Handles.DrawWireDisc(transform.position, transform.forward, detectionRadius);
     }
 
+    private void RangeCircleScale ()
+    {
+        rangeCircle.transform.localScale = rangeCircle.transform.localScale * detectionRadius;
+    }
+
 
     
 
