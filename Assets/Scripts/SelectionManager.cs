@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
-    Tower currentlySelectedTower = null;
+    public static Tower currentlySelectedTower = null;
     //Tower previouslySelectedTower = null;
     
     void Update()
@@ -47,7 +47,6 @@ public class SelectionManager : MonoBehaviour
 
     private static Tower GetTower()
     {
-        Debug.Log("TryGetTower");
         Vector2 mousePosition = Input.mousePosition;
 
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
@@ -57,17 +56,13 @@ public class SelectionManager : MonoBehaviour
         if (hit)
         {
             Tower tower = hit.collider.GetComponent<Tower>();
-            Debug.Log("tower");
             return tower;
-            
         }
-        Debug.Log("Nope");
         return null;
     }
 
     private void SelectCurrentTower(Tower tower)
     {
-        Debug.Log("SelectTower");
         currentlySelectedTower = tower;
 
         currentlySelectedTower.rangeCircle.SetActive(true);
@@ -75,7 +70,6 @@ public class SelectionManager : MonoBehaviour
 
     private void DeselectTower()
     {
-        Debug.Log("DeselectTower");
         currentlySelectedTower.rangeCircle.SetActive(false);
     }
 }

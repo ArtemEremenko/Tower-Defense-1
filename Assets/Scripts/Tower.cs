@@ -16,13 +16,23 @@ public class Tower : MonoBehaviour
     [SerializeField] private Transform firePointEmitter;
     [SerializeField] public GameObject rangeCircle;
     [SerializeField] private float bulletSpeed = 5f;
-    [SerializeField] private float detectionRadius = 8f;
+    [SerializeField] public float detectionRadius = 8f;
     [SerializeField] private LayerMask enemyLayerMask; 
     Transform currentTarget = null;
     bool isAimed = false;
 
+    //Tower tower = SelectionManager.currentlySelectedTower;
+    
+
     void Update()
     {
+        // upgrades
+        if (Input.GetKeyUp(KeyCode.R) && SelectionManager.currentlySelectedTower != null)
+        {
+            UpgradeTower(new RangeUpgrade());
+            Debug.Log("R for Range in " + this.name);
+        }
+
         countdownToFire += Time.deltaTime;
 
         if (currentTarget != null && !IsTargetInRange())
@@ -98,12 +108,20 @@ public class Tower : MonoBehaviour
         Handles.DrawWireDisc(transform.position, transform.forward, detectionRadius);
     }
 
-    private void RangeCircleScale ()
+    public void UpgradeTower(Upgrade upgrade)
     {
-        rangeCircle.transform.localScale = rangeCircle.transform.localScale * detectionRadius;
+        upgrade.ApplyUpgrade(this);
     }
 
-
-    
+    // private void RangeCircleScale()
+    // {
+    //     //Tower tower = new Tower();
+    //     Debug.Log("RangeCircleScale()");
+        
+    //     if (detectionRadius >= 12) return; 
+            
+    //     detectionRadius = detectionRadius + 2;
+    //     rangeCircle.transform.localScale = rangeCircle.transform.localScale * detectionRadius;
+    // }
 
 }

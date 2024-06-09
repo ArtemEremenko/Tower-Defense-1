@@ -6,13 +6,14 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private Enemy enemyZerglingPrefab;
-    [SerializeField] private float spawnTimer = 0;
+    private float spawnTimer = 0;
+    [SerializeField] private float spawnResetTimer = 3;
     [SerializeField] private Transform waypointsParent;
     void Update()
     {
         spawnTimer += Time.deltaTime;
         
-        if (spawnTimer >= 3)
+        if (spawnTimer >= spawnResetTimer)
         {
             SpawnEnemyUnit();
             spawnTimer = 0;
