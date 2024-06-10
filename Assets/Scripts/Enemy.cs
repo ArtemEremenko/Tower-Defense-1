@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public static Action ReachedEndPoint;
+    public static event Action<Enemy> ReachedEndPoint;
     [SerializeField] private float speed = 5f;
     private Transform[] waypoints;
     private int currentTargetIndex = 0;
@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
                 
                 if (currentTargetIndex == waypoints.Length)
                 {
-                    ReachedEndPoint?.Invoke();
+                    ReachedEndPoint?.Invoke(this);
                     Destroy(gameObject);
                 }
             }

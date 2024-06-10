@@ -162,3 +162,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitEffectPrefab: {fileID: 4731350401819800487, guid: 0098e7346f1568243893b6f0f8a49963, type: 3}
+  damage: 1

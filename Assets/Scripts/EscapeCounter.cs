@@ -17,6 +17,11 @@ public class EscapeCounter : MonoBehaviour
     private void OnDestroy()
     {
         Enemy.ReachedEndPoint -= OnReachedEndPoint; // unsubscribtion
+        Func<string> action = () => 
+        {
+           return "string example";
+        };
+        action?.Invoke();
     }
 
     private void RefreshText()
@@ -24,7 +29,7 @@ public class EscapeCounter : MonoBehaviour
         counter.text = $"{currentEscaped}/{maxEscape}";
     }
 
-    private void OnReachedEndPoint()
+    private void OnReachedEndPoint(Enemy sender)
     {
         currentEscaped++;
         RefreshText();
