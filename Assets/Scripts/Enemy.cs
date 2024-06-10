@@ -1,13 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public static Action ReachedEndPoint;
     [SerializeField] private float speed = 5f;
     private Transform[] waypoints;
     private int currentTargetIndex = 0;
@@ -36,6 +34,7 @@ public class Enemy : MonoBehaviour
                 
                 if (currentTargetIndex == waypoints.Length)
                 {
+                    ReachedEndPoint?.Invoke();
                     Destroy(gameObject);
                 }
             }
@@ -52,4 +51,5 @@ public class Enemy : MonoBehaviour
 
         transform.position = waypoints[0].position;
     }
+    
 }

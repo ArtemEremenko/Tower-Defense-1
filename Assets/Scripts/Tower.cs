@@ -1,11 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEditor;
-using System;
 
 public class Tower : MonoBehaviour
 {
@@ -22,14 +18,17 @@ public class Tower : MonoBehaviour
     bool isAimed = false;
 
     //Tower tower = SelectionManager.currentlySelectedTower;
-    
+    void Start()
+    {
+        rangeCircle.transform.localScale = Vector3.one * detectionRadius;
+    }
 
     void Update()
     {
         // upgrades
-        if (Input.GetKeyUp(KeyCode.R) && SelectionManager.currentlySelectedTower != null)
+        if (Input.GetKeyUp(KeyCode.R) && SelectionManager.currentlySelectedTower == this)
         {
-            UpgradeTower(new RangeUpgrade());
+            UpgradeRange();
             Debug.Log("R for Range in " + this.name);
         }
 
@@ -108,9 +107,12 @@ public class Tower : MonoBehaviour
         Handles.DrawWireDisc(transform.position, transform.forward, detectionRadius);
     }
 
-    public void UpgradeTower(Upgrade upgrade)
+    public void UpgradeRange()
     {
-        upgrade.ApplyUpgrade(this);
+        if (detectionRadius >= 12) return;
+            
+        detectionRadius = detectionRadius + 2;
+        rangeCircle.transform.localScale = Vector3.one * detectionRadius;
     }
 
     // private void RangeCircleScale()
