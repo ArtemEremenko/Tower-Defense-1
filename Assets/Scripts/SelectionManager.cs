@@ -22,27 +22,24 @@ public class SelectionManager : MonoBehaviour
     {
         Tower tower = GetTower();
         
-        if (tower == null && currentlySelectedTower == null) 
+        if (tower == currentlySelectedTower) 
         {
             return;
         }
 
-        if (tower == null && currentlySelectedTower != null) 
+        if (tower == null)
         {
             DeselectTower();
             currentlySelectedTower = null;
+            return;
         }
         
-        if (tower && currentlySelectedTower == null)
-        {
-            SelectCurrentTower(tower);
-        }
-
-        if (tower && currentlySelectedTower != null)
+        if (currentlySelectedTower != null)
         {
             DeselectTower();
-            SelectCurrentTower(tower);
         }
+
+        SelectCurrentTower(tower);
     }
 
     private static Tower GetTower()
